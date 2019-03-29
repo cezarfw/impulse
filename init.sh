@@ -7,7 +7,7 @@
 # Data: 29/03/2019
 #
 
-clean
+clear
 
 # Atualizar os pacotes e instalando o repositorio epel
 echo "Atualizando o sistema e instalando repositorio epel"
