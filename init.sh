@@ -34,24 +34,27 @@ echo "Ansible instalado version: $(ansible --version |sed -n "1p" |awk '{print $
 echo ""
 sleep 5
 
+# Testando se as roles ja estao criadas
+if [ -e $DIR_ROLES_ANSIBLE ]
+then 
+	echo -e " \033[0;32m As roles ja existem, prosseguindo com a execucao do script \033[0m"
+        echo ""
+else
 # Entrando no diretorio das roles e criando as mesmas
-echo "Criando as respectivas roles do ansible"
-echo ""
-( cd $DIR_ROLES_ANSIBLE ; ansible-galaxy init $ROLE_SYSTEM ; ansible-galaxy init $ROLE_APP ; ansible-galaxy init $ROLE_MAIL ) 
+	echo "Criando as respectivas roles do ansible"
+	echo ""
+	( cd $DIR_ROLES_ANSIBLE ; ansible-galaxy init $ROLE_SYSTEM ; ansible-galaxy init $ROLE_APP ; ansible-galaxy init $ROLE_MAIL )fi
 
 # Copiando os arquivos do ansible para o respectivo diretorio
 
-echo "Configurando o ansible e alocando os arquivos"
+echo "Configurando o ansible"
 cp -f $PWD/ansible/hosts /etc/ansible/.
 
 mkdir -p $PLAYBOOKS
 
 cp -f $PWD/ansible/playbooks/* $PLAYBOOKS/.
 
-echo ""
-echo "Copiando as roles para os respectivos diretorios"
-
-cp -f $PWD/ansible/roles/system_config/tasks/main.yml $DIR_ANSIBLE/$ROLE_SYSTEM/tasks/.
+cp -f $PWD/ansible/roles/system_config/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_SYSTEM/tasks/.
 
  
 
