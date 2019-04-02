@@ -1,0 +1,188 @@
+---
+#=============================  CONFIGURAÇÃO DO SISTEM ==========================#
+
+ - name: 'Forçar uso do IPV4 no APT'
+   shell: "echo 'Acquire::ForceIPv4 \"true\";' >> /etc/apt/apt.conf.d/99force-ipv4"
+
+ - name: "Atualizando lista de pacotes"
+   shell: "apt list upgradable"
+
+ - name: "Atualiza APT"
+   shell: "apt update"
+
+
+
+#============================= ATUALIZA REPOSITÓRIO NODEJS  ==========================#
+
+
+ - name: "Atualiza repositório com nodejs e npm"
+   shell: "curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -"
+
+#=============================  INSTALA NODEJS/NPM/AB/SSMTP  ==========================#
+
+
+ - name: "Instala nodejs"
+   apt:
+    name: "{{ item }}"
+    state: latest
+   become: yes
+   with_items:
+    - nodejs
+    - python-apt
+    - apache2-utils
+    - ssmtp
+
+
+#============================= INSTALA PM2/EXPRESS   ==========================#
+
+
+ - name: 'Copia o package.json para o servidor remoto'
+   copy:
+    src: './package.json'
+    dest: '/opt/'
+   become: yes
+
+
+
+ - name: "Instala pacotes package.json (Express/PM2)"
+   npm:
+    path: /opt
+
+
+ - name: 'Instala pm2'
+   command: npm install pm2 -g
+
+
+
+ - name: "Atualiza pacotes npm"
+   npm:
+    path: /opt
+    state: latest
+
+
+
+
+
+
+#============================= INSTALA WATCH   ==========================#
+
+
+ - name: 'Instala watch'
+   command: npm install watch
+
+
+
+
+#=============================  COPIA A APLICAÇÃO PARA O SERVIDOR REMOTO  ==========================#
+
+ - name: 'Copia a aplicação nodejs (app.js) para o servidor remoto no diretório /opt/'
+   copy:
+    src: './app.js'
+    dest: '/opt/'
+
+
+#============================= INSTALA PROXY REVERSO (NGINX)   ==========================#
+
+
+ - name: 'Instala NGINX'
+   apt:
+    name: nginx
+    state: latest
+    update_cache: true
+
+
+#============================= COPIA O ARQUIVO DE CONFIGURAÇÃO DO PROXY REVERSO PARA O SERVIDOR REMOTO   ==========================#
+
+
+ - name: 'Copia o arquivo de configuração do proxy reverso'
+   copy:
+    src: "./default"
+    dest: "/etc/nginx/sites-enabled/default"
+   become: yes
+
+
+#============================= CRIA O DIRETÓRIO DOS CERTIFICADOS SSL   ==========================#
+
+#    - name: "Cria o diretório para alocar os certificados SSL (HTTPS)"
+ - file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: 0755
+
+
+#=============================  COPIA O ARQUIVO .CRT  ==========================#
+
+ - name: 'Copia arquivo crt (Certificado)'
+   copy:
+    src: "./cert.crt"
+    dest: "/etc/nginx/ssl"
+   become: yes
+
+
+#=============================  COPIA O ARQUIVO .KEY  ==========================#
+
+
+
+ - name: 'Copia arquivo key (Certificado)'
+   copy:
+    src: "./cert.key"
+    dest: "/etc/nginx/ssl"
+   become: yes
+
+
+
+#=============================  CONFIGURA SSMTP ===============================#
+
+ - name: "Configurando SSMTP para envio do relatório"
+   blockinfile:
+    path: /etc/ssmtp/revaliases
+    block: |
+        root:desafiolinx@gmail.com:smtp.gmail.com:587
+
+
+ - name: 'Copia arquivo ssmtp.conf'
+   copy:
+    src: "./ssmtp.conf"
+    dest: "/etc/ssmtp/ssmtp.conf"
+   become: yes
+
+
+
+#=============================  EXECUTA A APLICAÇÃO EM MODO CLUSTER COM O MÁXIMO DE CPU DISPONÍVEL ==========================#
+
+
+ - name: 'Executa o app em processamente paralelo (cluster) baseado no número de processadores e deixa em background'
+   shell: pm2 start app.js -f -i max app.js --watch
+   args:
+    chdir: /opt/
+   ignore_errors: True
+
+
+#=============================  Reinicia Proxy Reverso ==========================#
+
+
+ - service:
+     name: nginx
+     state: restarted
+   become: yes
+
+
+
+#============================= Copia o script que gera o relatório de requisições para o host remoto no diretório /opt ==========================#
+
+ - name: "Copia o script parserlog.sh para o host remoto /opt"
+   copy:
+    src: "./parserlog.sh"
+    dest: "/opt"
+   become: yes
+
+
+
+#=============================  CRIA UMA CRON PARA EXECUTAR O SCRIPT PARSER_LOG.SH (/OPT) ==========================#
+
+
+ - cron:
+    name: "Executa parser_log.sh"
+    minute: "0"
+    hour: "2"
+    job: "/bin/bash /opt/parserlog.sh > /dev/null"
