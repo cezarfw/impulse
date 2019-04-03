@@ -12,8 +12,8 @@
 
  - name: 'Copia o arquivo de configuração do proxy reverso'
    copy:
-    src: "./default"
-    dest: "/etc/nginx/sites-enabled/default"
+    src: "./files/default"
+    dest: "/etc/nginx/nginx.conf"
 
 
 #============================= CRIA O DIRETÓRIO DOS CERTIFICADOS SSL   ==========================#
@@ -42,8 +42,8 @@
     src: "./files/cert.key"
     dest: "/etc/nginx/ssl"
 
-#=============================  REINICIA SERVICO DE PROXY REVERSO ==========================#
+#=============================  INICIA SERVICO DE PROXY REVERSO ==========================#
 
  - service:
     name: nginx
-    state: restarted
+    state: started
