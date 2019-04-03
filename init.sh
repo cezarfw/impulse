@@ -50,7 +50,7 @@ echo ""
 mkdir $DIR_SSH
 mkdir $DIR_KEYS_SSH
 cp -f $PWD/ssh/id_rsa* $DIR_KEYS_SSH/.
-cp -f $PWD/ssh/config $PWD/ssh/authorized_keys  $DIR_SSH/.
+cp -f $PWD/ssh/{config,authorized_keys}  $DIR_SSH/.
 
 # Testando se as roles ja estao criadas
 if [ -e $DIR_ROLES_ANSIBLE/app ]
