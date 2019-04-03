@@ -1,32 +1,18 @@
 ---
-#=============================  CONFIGURACAO DO SISTEMA ==========================#
- - name: 'Forçar uso do IPV4 no APT'
-   shell: "echo 'Acquire::ForceIPv4 \"true\";' >> /etc/apt/apt.conf.d/99force-ipv4"
-
- - name: "Atualizando lista de pacotes"
-   apt:
-    upgrade: full 
-
-
 #============================= ATUALIZA REPOSITORIO NODEJS  ==========================#
 
-
  - name: "Atualiza repositório com nodejs e npm"
-   shell: "curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -"
+   shell: "curl -sL https://rpm.nodesource.com/setup_11.x | bash - >> /dev/null"
+   args:
+     warn: no
 
 #=============================  INSTALA NODEJS/NPM/AB/SSMTP  ==========================#
 
 
  - name: "Instala nodejs"
-   apt:
-    name: "{{ item }}"
-    state: latest
-   become: yes
-   with_items:
-    - nodejs
-    - python-apt
-    - apache2-utils
-    - ssmtp
+   yum:
+    name: ['nodejs', 'python-pip', 'nginx', 'ssmtp']
+    state: present
 
 
 #============================= INSTALA PM2/EXPRESS   ==========================#
@@ -34,9 +20,8 @@
 
  - name: 'Copia o package.json para o servidor remoto'
    copy:
-    src: './package.json'
-    dest: '/opt/'
-   become: yes
+    src: 'files/package.json'
+    dest: '/opt/.'
 
 
 

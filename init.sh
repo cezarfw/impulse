@@ -56,9 +56,9 @@ cp -f $PWD/ansible/playbooks/* $PLAYBOOKS/.
 
 cp -f $PWD/ansible/roles/system_config/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_SYSTEM/tasks/.
 
- 
+cp -f $PWD/ansible/roles/app/files/* $DIR_ROLES_ANSIBLE/$ROLE_APP/files/. 
 
-
-
+clear
+echo -e "\033[0;32m Instalacao finalizada, seu servidor esta pronto para operar \033[0m"
 
 
