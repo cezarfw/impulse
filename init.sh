@@ -13,7 +13,7 @@ ROLE_APP='app'
 ROLE_WEBSERVER='webserver'
 ROLE_MAIL='mail'
 PLAYBOOKS='/etc/ansible/playbooks'
-DIR_SSH='$HOME/.ssh'
+DIR_SSH='/root/.ssh'
 DIR_KEYS_SSH='/etc/keys'
 
 clear
@@ -51,6 +51,8 @@ mkdir $DIR_SSH
 mkdir $DIR_KEYS_SSH
 cp -f $PWD/ssh/id_rsa* $DIR_KEYS_SSH/.
 cp -f $PWD/ssh/{config,authorized_keys}  $DIR_SSH/.
+chmod -R 600 $DIR_KEYS_SSH/.
+
 
 # Testando se as roles ja estao criadas
 if [ -e $DIR_ROLES_ANSIBLE/app ]
