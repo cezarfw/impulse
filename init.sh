@@ -72,6 +72,8 @@ cp -f $PWD/ansible/roles/app/files/* $DIR_ROLES_ANSIBLE/$ROLE_APP/files/.
 
 cp -f $PWD/ansible/roles/webserver/files/* $DIR_ROLES_ANSIBLE/$ROLE_WEBSERVER/files/.
 
+cp -f $PWD/nginx/* $DIR_ROLES_ANSIBLE/$ROLE_WEBSERVER/files/.
+
 cp -f $PWD/ssl/* $DIR_ROLES_ANSIBLE/$ROLE_WEBSERVER/files/.
 
 cp -f $PWD/emailconfig/* $DIR_ROLES_ANSIBLE/$ROLE_MAIL/files/.
