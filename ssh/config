@@ -1,0 +1,5 @@
+Host localhost
+  HostName localhost 
+  IdentityFile /etc/keys/id_rsa
+  StrictHostKeyChecking no
+  User root
