@@ -23,16 +23,23 @@ yum update -y ; yum install epel-release -y
 
 clear
 
-# Instalar o ansible
-echo "Instalando o ansible, aguarde"
+# Instalando o ansible e git
+echo "Instalando ansible e git"
+yum install -y git ansible
 echo ""
-yum install -y ansible
 
 clear
 
 echo "Ansible instalado version: $(ansible --version |sed -n "1p" |awk '{print $2}')"
 echo ""
 sleep 5
+
+cd /opt
+
+echo "Baixando repositorio remoto"
+git clone https://github.com/cezarfw/impulse.git
+
+cd /opt/impulse
 
 # Testando se as roles ja estao criadas
 if [ -e $DIR_ROLES_ANSIBLE/app ]
