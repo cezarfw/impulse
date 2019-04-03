@@ -1,0 +1,49 @@
+---
+#============================= INSTALA PROXY REVERSO (NGINX)   ==========================#
+
+ - name: 'Instala NGINX'
+   yum:
+    name: nginx
+    state: latest
+
+
+#============================= COPIA O ARQUIVO DE CONFIGURAÇÃO DO PROXY REVERSO PARA O SERVIDOR REMOTO   ==========================#
+
+
+ - name: 'Copia o arquivo de configuração do proxy reverso'
+   copy:
+    src: "./default"
+    dest: "/etc/nginx/sites-enabled/default"
+
+
+#============================= CRIA O DIRETÓRIO DOS CERTIFICADOS SSL   ==========================#
+
+#    - name: "Cria o diretório para alocar os certificados SSL (HTTPS)"
+ - file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: 0755
+
+
+#=============================  COPIA O ARQUIVO .CRT  ==========================#
+
+ - name: 'Copia arquivo crt (Certificado)'
+   copy:
+    src: "./files/cert.crt"
+    dest: "/etc/nginx/ssl"
+
+
+#=============================  COPIA O ARQUIVO .KEY  ==========================#
+
+
+
+ - name: 'Copia arquivo key (Certificado)'
+   copy:
+    src: "./files/cert.key"
+    dest: "/etc/nginx/ssl"
+
+#=============================  REINICIA SERVICO DE PROXY REVERSO ==========================#
+
+ - service:
+    name: nginx
+    state: restarted
