@@ -79,6 +79,9 @@ cp -f $PWD/ssl/* $DIR_ROLES_ANSIBLE/$ROLE_WEBSERVER/files/.
 cp -f $PWD/emailconfig/* $DIR_ROLES_ANSIBLE/$ROLE_MAIL/files/.
 
 clear
-echo -e "\033[0;32m Instalacao finalizada, seu servidor esta pronto para operar \033[0m"
+echo "Iniciando a execucao do playbook ansible"
+ansible-playbook $PLAYBOOKS/main.yml
 
+clear
+echo -e "\033[0;32m Provisionamento finalizado, seu servidor esta operacional. \033[0m"
 
