@@ -64,7 +64,13 @@ cp -f $PWD/ansible/playbooks/* $PLAYBOOKS/.
 
 cp -f $PWD/ansible/roles/app/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_APP/tasks/.
 
+cp -f $PWD/ansible/roles/webserver/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_WEBSERVER/tasks/.
+
+cp -f $PWD/ansible/roles/mail/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_MAIL/tasks/.
+
 cp -f $PWD/ansible/roles/app/files/* $DIR_ROLES_ANSIBLE/$ROLE_APP/files/. 
+
+cp -f $PWD/ansible/roles/webserver/files/* $DIR_ROLES_ANSIBLE/$ROLE_WEBSERVER/files/.
 
 cp -f $PWD/ssl/* $DIR_ROLES_ANSIBLE/$ROLE_WEBSERVER/files/.
 

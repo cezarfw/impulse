@@ -38,8 +38,8 @@
    npm:
     path: /opt/app/
  
-- name: 'Instala pm2'
-  command: npm install pm2 -g
+ - name: 'Instala pm2'
+   command: npm install pm2 -g
 
 
 #=============================  EXECUTA A APLICAÇÃO EM MODO CLUSTER COM O MÁXIMO DE CPU DISPONÍVEL ==========================#
