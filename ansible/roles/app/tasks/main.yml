@@ -45,9 +45,16 @@
 #=============================  EXECUTA A APLICAÇÃO EM MODO CLUSTER COM O MÁXIMO DE CPU DISPONÍVEL ==========================#
 
 
- - name: 'Executa o app em processamente paralelo (cluster) baseado no número de processadores e deixa em background'
+ - name: 'Executa o app em processamente paralelo (cluster) baseado no numero de processadores e deixa em background'
    shell: pm2 start app.js -f -i max app.js
    args:
     chdir: /opt/app
    ignore_errors: True
+
+ - name: 'Carrega a aplicacao no systemd para inicializacao'
+   command: pm2 startup systemd
+   ignore_errors: True
+
+
+
 
