@@ -53,12 +53,17 @@
  - firewalld:
     port: 3000/tcp
     permanent: yes
-    state: disabled
+    state: enabled
 
  - firewalld:
     port: 80/tcp
     permanent: yes
-    state: disabled
+    state: enabled
+
+ - firewalld:
+    port: 443/tcp
+    permanent: yes
+    state: enabled
 
 
 #=============================  INICIA SERVICO DE PROXY REVERSO ==========================#
