@@ -48,6 +48,19 @@
  - selinux:
     state: disabled
 
+#=============================  LIBERACAO DE PORTAS NO FIREWALLD  ==========================#
+
+ - firewalld:
+    port: 3000/tcp
+    permanent: yes
+    state: disabled
+
+ - firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: disabled
+
+
 #=============================  INICIA SERVICO DE PROXY REVERSO ==========================#
 
  - service:
