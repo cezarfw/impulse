@@ -52,7 +52,7 @@
    ignore_errors: True
 
  - name: 'Carrega a aplicacao no systemd para inicializacao'
-   cmd: pm2 startup systemd
+   command: pm2 startup systemd
    ignore_errors: True
 
 
