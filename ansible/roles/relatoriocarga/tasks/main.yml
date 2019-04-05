@@ -1,31 +1,29 @@
 ---
 #==================  COPIANDO SCRIPTS CARGA.SH E PARSERLOG PARA SERVIDOR REMOTO  =====================#
 
- - name: 'Cria diretorio /opt/scripts para armazenar os scripts'
  - file:
-    path: /opt/scripts
-    state: directory
-    mode: 755   
+     path: '/opt/scripts'
+     state: directory
+     mode: 0755
 
- - name: 'Copia o script parserlog.sh e carga.sh para o host remoto /opt'
-   copy:
-    src: files/{{ item }} 
-    dest: /opt/scripts
+ - copy:
+     src: files/{{ item }}
+     dest: /opt/scripts
    with_items:
-    - parserlog.sh
-    - carga.sh
+     - parserlog.sh
+     - carga.sh
 
-- file:
-    path: /opt/scripts/{{ item }}
-    mode: 0655
-  with_items:
-    - parserlog.sh
-    - carga.sh
+ - file:
+     path: /opt/scripts/{{ item }}
+     mode: 0655
+   with_items:
+     - parserlog.sh
+     - carga.sh
 
 #==================  CRIANDO CRON PARA EXECUTAR GERAR RELATORIO DE REQUISICOES E ENVIAR E-MAIL  =====================#
 
  - cron:
-    name: "Executa parser_log.sh"
-    minute: "0"
-    hour: "2"
-    job: "/bin/bash /opt/scripts/parserlog.sh > /dev/null"
+     name: "Executa parser_log.sh"
+     minute: "0"
+     hour: "2"
+     job: "/bin/bash /opt/scripts/parserlog.sh > /dev/null"
