@@ -1,9 +1,5 @@
 #!/bin/bash
-#
-#
-# Script para realizar teste de carga e analisar quantas requisições a aplicação suporta
-#
-#
+
 # Autor: Cezar Augusto Roggia
 # E-mail: cezarfw@gmail.com
 #
@@ -26,7 +22,7 @@ CONT_REQUISICOES=$(( CONT_REQUISICOES+70000 ))
 CONT_USUARIOS=$(( CONT_USUARIOS+10 ))
 export CALC=`expr $CONT_REQUISICOES / $CONT_USUARIOS`
 echo "Testando com $CONT_REQUISICOES requisições e $CONT_USUARIOS usuários, isso dá em média $CALC requisições por usuário!"
-ab -n $CONT_REQUISICOES -c $CONT_USUARIOS -q -H "Accept-Encoding: gzip, deflate" $(hostname -i):3000/opt/app.js
+ab -n $CONT_REQUISICOES -c $CONT_USUARIOS -q -H "Accept-Encoding: gzip, deflate" http://localhost:80/opt/app/app.js
 done
 
 echo "O teste de carga realizado mostrou que a aplicãção respondeu até $CONT_REQUISICOES requisições de $CONT_USUARIOS simultâneos."

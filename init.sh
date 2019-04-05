@@ -12,6 +12,7 @@ DIR_ANSIBLE='/etc/ansible'
 ROLE_APP='app'
 ROLE_WEBSERVER='webserver'
 ROLE_MAIL='mail'
+ROLE_RELATORIOCARGA='relatoriocarga'
 PLAYBOOKS='/etc/ansible/playbooks'
 DIR_SSH='/root/.ssh'
 DIR_KEYS_SSH='/etc/keys'
@@ -35,7 +36,7 @@ clear
 echo -e "\033[0;32m Passo 3 - Ansible instalado version: $(ansible --version |sed -n "1p" |awk '{print $2}') \033[0m"
 echo "Aguarde"
 sleep 5
-
+echo ""
 cd /opt
 
 echo -e "\033[0;32m Passo 4 - Baixando repositorio remoto \033[0m"
@@ -43,7 +44,7 @@ echo ""
 git clone https://github.com/cezarfw/impulse.git
 
 cd /opt/impulse
-
+echo ""
 
 echo -e "\033[0;32m Passo 5 - Configurando SSH \033[0m"
 echo ""
@@ -63,12 +64,13 @@ else
 # Entrando no diretorio das roles e criando as mesmas
 	echo -e "\033[0;32m Passo 6 - Criando as respectivas roles do ansible \033[0m"
 	echo ""
-	( cd $DIR_ROLES_ANSIBLE ; ansible-galaxy init $ROLE_APP ; ansible-galaxy init $ROLE_MAIL ; ansible-galaxy init $ROLE_WEBSERVER )
+	( cd $DIR_ROLES_ANSIBLE ; ansible-galaxy init $ROLE_APP ; ansible-galaxy init $ROLE_MAIL ; ansible-galaxy init $ROLE_WEBSERVER ; ansible-galaxy init $ROLE_RELATORIOCARGA)
 fi
 
 # Copiando os arquivos do ansible para o respectivo diretorio
 
 echo -e "\033[0;32m Passo 7 - Configurando o ansible \033[0m"
+echo ""
 sleep 5
 cp -f $PWD/ansible/hosts /etc/ansible/.
 
@@ -81,6 +83,10 @@ cp -f $PWD/ansible/roles/app/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_APP/tasks/.
 cp -f $PWD/ansible/roles/webserver/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_WEBSERVER/tasks/.
 
 cp -f $PWD/ansible/roles/mail/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_MAIL/tasks/.
+
+cp -f $PWD/ansible/roles/relatoriocarga/tasks/main.yml $DIR_ROLES_ANSIBLE/$ROLE_RELATORIOCARGA/tasks/.
+
+cp -f $PWD/scripts/* $DIR_ROLES_ANSIBLE/$ROLE_RELATORIOCARGA/files/.
 
 cp -f $PWD/ansible/roles/app/files/* $DIR_ROLES_ANSIBLE/$ROLE_APP/files/. 
 
@@ -98,5 +104,7 @@ echo ""
 ansible-playbook $PLAYBOOKS/main.yml
 
 clear
-echo -e "\033[0;32m Provisionamento finalizado, seu servidor esta operacional. \033[0m"
+echo -e "\033[0;32m Provisionamento finalizado, o computador precisa ser reiniciado e depois estara operacional. \033[0m"
+
+echo ""
 
