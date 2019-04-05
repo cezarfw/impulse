@@ -22,6 +22,7 @@
     - parserlog.sh
     - carga.sh
 
+#==================  CRIANDO CRON PARA EXECUTAR GERAR RELATORIO DE REQUISICOES E ENVIAR E-MAIL  =====================#
 
  - cron:
     name: "Executa parser_log.sh"

@@ -73,7 +73,7 @@ echo -e "\033[0;32m Passo 7 - Configurando o ansible \033[0m"
 echo ""
 sleep 5
 cp -f $PWD/ansible/hosts /etc/ansible/.
-
+ 
 mkdir -p $PLAYBOOKS
 
 cp -f $PWD/ansible/playbooks/* $PLAYBOOKS/.
